@@ -1,0 +1,84 @@
+
+!
+! Last configuration change at 13:13:32 UTC Mon Jan 2 2006 by adnan
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname router2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$hheC$56r7PetgpEG6ASpGfp72m0
+!
+no aaa new-model
+ip source-route
+!
+!
+!
+!
+!
+ip cef
+no ip domain lookup
+ip domain name example3.com
+multilink bundle-name authenticated
+!
+!
+license udi pid CISCO1841 sn FHK1052164G
+username adnan secret 5 $1$cS/u$ygyD44tR5GUNHotKAUF8S0
+!
+!
+ip ftp username adnan
+ip ftp password ingmatic68
+!
+!
+!
+!
+interface Loopback1
+ ip address 2.2.2.2 255.255.255.255
+!
+interface FastEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 192.168.3.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ ip address 192.168.4.1 255.255.255.0
+ no fair-queue
+ clock rate 2000000
+!
+router ospf 1
+ network 192.168.0.0 0.0.255.255 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+ip route 192.168.2.0 255.255.255.0 192.168.3.2
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+line vty 5 15
+ login local
+ transport input all
+!
+scheduler allocate 20000 1000
+ntp server 192.168.3.2
+end

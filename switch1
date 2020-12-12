@@ -1,0 +1,157 @@
+
+!
+! Last configuration change at 13:15:32 UTC Mon Jan 2 2006 by adnan
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service unsupported-transceiver
+!
+hostname switch1
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$9qIK$oUD/5JCmZyxRkOPWd3EP00
+!
+username adnan secret 5 $1$4Vyx$XEIQqMXz2dy10ivzsD9u11
+no aaa new-model
+system mtu routing 1500
+vtp mode transparent
+ip subnet-zero
+ip domain-name example1.com
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-734743936
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-734743936
+ revocation-check none
+ rsakeypair TP-self-signed-734743936
+!
+!
+crypto pki certificate chain TP-self-signed-734743936
+ certificate self-signed 01
+  3082024A 308201B3 A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 37333437 34333933 36301E17 0D393330 33303130 30303130 
+  325A170D 32303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3733 34373433 
+  39333630 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100 
+  B6E83F04 C62A5C3E C6462651 521622DF 75727B87 F8E957FD 675225EF 2FF62205 
+  45ACA9E6 39DC843B 8C66761C 1B45EE45 520977CC 478D47D9 110C086D 2F6A1EA5 
+  C8052894 3AEC26BE 7814687F 50B40631 26FC5A62 D82438D3 83989179 51CCFE19 
+  7E40A546 221EED46 C385C02D C312ACFE 2CC1365D 81805A05 9014C226 FDBFB713 
+  02030100 01A37430 72300F06 03551D13 0101FF04 05300301 01FF301F 0603551D 
+  11041830 16821473 77697463 68312E65 78616D70 6C65312E 636F6D30 1F060355 
+  1D230418 30168014 053D45B8 E78989A5 B0B1F245 90BA9204 8D67D690 301D0603 
+  551D0E04 16041405 3D45B8E7 8989A5B0 B1F24590 BA92048D 67D69030 0D06092A 
+  864886F7 0D010104 05000381 81005DA4 C0846B52 798F088A 0609E7C0 247DE6E4 
+  F74C3D08 A4C6FAA0 C8F2BDDE 229197DC 6012B8D8 E951429C 396EB81F 4C23B4FD 
+  DC288313 08FBC88F F624FB28 24968A92 B9830D85 CF2139C8 2F75F7B4 A8BB92AB 
+  FA326FD5 C820D4C9 73A6AF48 44017313 49BCF8E3 EC672CDA 5BC4D022 CB491F64 
+  088FB45A 70BC88BC 3BB06BCC B9FA
+  quit
+!
+!
+!
+no errdisable detect cause gbic-invalid
+port-channel load-balance src-dst-mac
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+vlan 2
+ name first-vlan
+!
+ip ftp username adnan
+ip ftp password ingmatic68
+ip ssh version 2
+!
+!
+interface Port-channel1
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+ channel-group 1 mode desirable
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+ channel-group 1 mode desirable
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ ip address 192.168.1.10 255.255.255.0
+!
+ip default-gateway 192.168.1.1
+ip classless
+ip http server
+ip http secure-server
+!
+!
+control-plane
+!
+!
+line con 0
+line vty 0 4
+ login local
+ transport input all
+line vty 5 15
+ login local
+ transport input all
+!
+ntp clock-period 36032523
+ntp server 192.168.1.1
+end

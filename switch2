@@ -1,0 +1,181 @@
+
+!
+! Last configuration change at 13:08:10 UTC Mon Jan 2 2006 by adnan
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service unsupported-transceiver
+!
+hostname switch2
+!
+boot-start-marker
+boot-end-marker
+!
+logging monitor informational
+enable secret 5 $1$FmQT$2QbqKpgeXTbRJivshklty1
+!
+username adnan secret 5 $1$5ekM$YGARs0HdfNTmImtScvB0G1
+no aaa new-model
+system mtu routing 1500
+vtp mode transparent
+ip subnet-zero
+ip domain-name example2.com
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-3109607040
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3109607040
+ revocation-check none
+ rsakeypair TP-self-signed-3109607040
+!
+!
+crypto pki certificate chain TP-self-signed-3109607040
+ certificate self-signed 01
+  3082024C 308201B5 A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 33313039 36303730 3430301E 170D3933 30333031 30303031 
+  30335A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 31303936 
+  30373034 3030819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100C09F 63778592 0CB3E522 73A097CD 22257E3B 30DD89E1 E3494D81 B79041A3 
+  598F9B9D 28C288E7 839E5605 AF9B0B7E 65E01ED0 46456E30 B1FFFD9E C41E4867 
+  91B17A2E 375FA349 5BD05E93 9F97C16D 6B7B7473 D3A223CA 81086030 22485E33 
+  6D5C98D3 B5E0EA49 3CAC889A 31A6FA29 28093FF5 64B41B60 7A127B28 BB8D019C 
+  A82D0203 010001A3 74307230 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D1104 18301682 14737769 74636832 2E657861 6D706C65 322E636F 6D301F06 
+  03551D23 04183016 801450D4 F943F243 A25B8A57 5B375986 991783DA F5E8301D 
+  0603551D 0E041604 1450D4F9 43F243A2 5B8A575B 37598699 1783DAF5 E8300D06 
+  092A8648 86F70D01 01040500 03818100 9B9111B7 D3435D7A D6CF5B8F D7880931 
+  7BFA54DF 610C890D AB1E90C0 26C31FD5 D4C05197 CC1D2935 CF8E3877 78F9816E 
+  A058DB93 361FBD63 80DBE960 A47830BF C9357EAB 578F9B56 A691D105 2A7EF927 
+  718F6495 2DF9D07D 22EA4B8E 3AF444F9 B6982D81 A0A61BE7 2F5163AF F5561289 
+  D217770C 655F18ED E76F8348 B5B38CBE
+  quit
+!
+!
+!
+no errdisable detect cause gbic-invalid
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+vlan 2 
+!
+ip ftp username adnan
+ip ftp password ingmatic68
+ip ssh version 2
+!
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+ description int shutdown
+ shutdown
+!
+interface FastEthernet0/3
+ description test for range description
+!
+interface FastEthernet0/4
+ description test for range description
+!
+interface FastEthernet0/5
+ description test for range description
+!
+interface FastEthernet0/6
+ description test for range description
+!
+interface FastEthernet0/7
+ description test for range description
+!
+interface FastEthernet0/8
+ description test for range description
+!
+interface FastEthernet0/9
+ description test for range description
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+ switchport access vlan 2
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 2
+ switchport mode trunk
+!
+interface FastEthernet0/14
+ switchport access vlan 2
+!
+interface FastEthernet0/15
+ switchport access vlan 2
+!
+interface FastEthernet0/16
+ switchport access vlan 2
+!
+interface FastEthernet0/17
+ switchport access vlan 2
+!
+interface FastEthernet0/18
+ switchport access vlan 2
+!
+interface FastEthernet0/19
+ switchport access vlan 2
+!
+interface FastEthernet0/20
+ switchport access vlan 2
+!
+interface FastEthernet0/21
+ switchport access vlan 2
+!
+interface FastEthernet0/22
+ switchport access vlan 2
+!
+interface FastEthernet0/23
+ switchport access vlan 2
+!
+interface FastEthernet0/24
+ switchport access vlan 2
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ ip address 192.168.2.10 255.255.255.0
+!
+interface Vlan2
+ ip address 192.168.6.10 255.255.255.0
+!
+ip default-gateway 192.168.2.1
+ip classless
+ip http server
+ip http secure-server
+!
+!
+control-plane
+!
+!
+line con 0
+line vty 0 4
+ exec-timeout 0 0
+ login local
+ transport input all
+line vty 5 15
+ exec-timeout 0 0
+ login local
+ transport input all
+!
+ntp clock-period 36032341
+ntp server 192.168.2.1
+end

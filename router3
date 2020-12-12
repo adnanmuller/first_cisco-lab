@@ -1,0 +1,102 @@
+
+!
+! Last configuration change at 13:11:07 UTC Mon Jan 2 2006 by adnan
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname router3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$2dGI$SdgPm.3ZqKF/vOieQfun01
+!
+no aaa new-model
+memory-size iomem 15
+ip source-route
+!
+!
+!
+!
+!
+ip cef
+ip domain name example.com
+multilink bundle-name authenticated
+!
+!
+license udi pid CISCO1841 sn FCZ12347600
+username adnan secret 5 $1$SLR8$9QPzI6DGD/RE5zPkKGP.i0
+!
+!
+ip ftp username adnan
+ip ftp password ingmatic68
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address dhcp
+ ip access-group 1 out
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1.10
+ encapsulation dot1Q 2
+ ip address 192.168.6.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface Serial0/0/0
+ ip address 192.168.4.2 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+ no fair-queue
+!
+router ospf 1
+ network 192.168.0.0 0.0.255.255 area 0
+ default-information originate
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+ip nat inside source list 2 interface FastEthernet0/0 overload
+!
+access-list 1 deny   192.168.1.4 log
+access-list 1 permit any log
+access-list 2 permit 192.168.1.0 0.0.0.255
+access-list 2 permit 192.168.2.0 0.0.0.255
+access-list 2 permit 192.168.3.0 0.0.0.255
+access-list 2 permit 192.168.4.0 0.0.0.255
+access-list 2 permit 192.168.5.0 0.0.0.255
+access-list 2 permit 192.168.6.0 0.0.0.255
+!
+!
+control-plane
+!
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+line vty 5 15
+ login local
+ transport input all
+!
+scheduler allocate 20000 1000
+ntp server 192.168.4.1
+end
